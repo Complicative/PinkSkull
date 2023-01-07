@@ -1,0 +1,10 @@
+## Title: PinkSkull
+## Description: 
+## Author: Complicative
+## Version: 1.1.1
+## APIVersion: 101035
+## SavedVariables: PinkSkullSettings
+## DependsOn: LibAddonMenu-2.0
+
+PinkSkull.xml
+PinkSkull.lua
