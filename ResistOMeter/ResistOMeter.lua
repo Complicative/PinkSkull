@@ -18,6 +18,9 @@ ResistOMeter.Default = {
     hidePhysicalResistance = false,
     hideSpellResistance = false,
     hideBlockMitigation = false,
+    customPhysicalResistance = "Physical Resistance",
+    customSpellResistance = "Spell Resistance",
+    customBlockMitigation = "Block Mitigation",
     backdrop = "ZO_DarkThinFrame"
 }
 
@@ -33,11 +36,15 @@ local function cEnd()
 end
 
 function ResistOMeter.GetStringNames()
-    local physicalResistString = "Physical Resistance\n"
-    local spellResistString = "Spell Resistance\n"
-    local blockMitigationString = "Block Mitigation"
+    local physicalResistString = "\n"
+    local spellResistString = "\n"
+    local blockMitigationString = ""
 
-    if ResistOMeter.Settings.nameType == "short" then
+    if ResistOMeter.Settings.nameType == "long" then
+        physicalResistString = "Physical Resistance\n"
+        spellResistString = "Spell Resistance\n"
+        blockMitigationString = "Block Mitigation"
+    elseif ResistOMeter.Settings.nameType == "short" then
         physicalResistString = "P-Resist." .. "\n"
         spellResistString = "S-Resist." .. "\n"
         blockMitigationString = "B-Miti."
@@ -54,6 +61,10 @@ function ResistOMeter.GetStringNames()
             ResistOMeter.Settings.fontSize, ResistOMeter.Settings.fontSize) .. "\n"
         blockMitigationString = string.format("|t%d:%d:esoui/art/tutorial/gamepad/gp_lfg_tank.dds|t",
             ResistOMeter.Settings.fontSize, ResistOMeter.Settings.fontSize)
+    elseif ResistOMeter.Settings.nameType == "custom" then
+        physicalResistString = ResistOMeter.Settings.customPhysicalResistance .. "\n"
+        spellResistString = ResistOMeter.Settings.customSpellResistance .. "\n"
+        blockMitigationString = ResistOMeter.Settings.customBlockMitigation
     end
 
     if ResistOMeter.Settings.hidePhysicalResistance then physicalResistString = "" end
@@ -159,12 +170,39 @@ function ResistOMeter.createSettings()
     optionsData[#optionsData + 1] = {
         type = "dropdown",
         name = "Name Type",
-        choices = { "long", "short", "initials", "icon" },
+        choices = { "long", "short", "initials", "icon", "none", "custom" },
         getFunc = function() return ResistOMeter.Settings.nameType end,
         setFunc = function(value)
             ResistOMeter.Settings.nameType = value
             ResistOMeter.FillLabel()
         end
+    }
+    optionsData[#optionsData + 1] = {
+        type = "editbox",
+        name = "Custom Physical Resistance Name",
+        tooltip = "custom needs to be selected in Name Type",
+        getFunc = function() return ResistOMeter.Settings.customPhysicalResistance end,
+        setFunc = function(text) ResistOMeter.Settings.customPhysicalResistance = text ResistOMeter.FillLabel() end,
+        isMultiline = false,
+        default = "Physical Resistance",
+    }
+    optionsData[#optionsData + 1] = {
+        type = "editbox",
+        name = "Custom Spell Resistance Name",
+        tooltip = "custom needs to be selected in Name Type",
+        getFunc = function() return ResistOMeter.Settings.customSpellResistance end,
+        setFunc = function(text) ResistOMeter.Settings.customSpellResistance = text ResistOMeter.FillLabel() end,
+        isMultiline = false,
+        default = "Spell Resistance",
+    }
+    optionsData[#optionsData + 1] = {
+        type = "editbox",
+        name = "Custom Block Mitigation Name",
+        tooltip = "custom needs to be selected in Name Type",
+        getFunc = function() return ResistOMeter.Settings.customBlockMitigation end,
+        setFunc = function(text) ResistOMeter.Settings.customBlockMitigation = text ResistOMeter.FillLabel() end,
+        isMultiline = false,
+        default = "Block Mitigation",
     }
     optionsData[#optionsData + 1] = {
         type = "checkbox",
