@@ -1,21 +1,18 @@
 <GuiXml>
     <Controls>
         <!-- Every control's name must be *unique*. -->
-        <TopLevelControl name="PinkSkullMainWindow" clampedToScreen="true" movable="true"
+        <TopLevelControl name="ResistOMeterMainWindow" clampedToScreen="true" movable="true"
             mouseEnabled="true" hidden="true" resizeHandleSize="5">
             <OnMoveStop>
-                PinkSkull.SaveConstraints()
+                ResistOMeter.SaveConstraints()
             </OnMoveStop>
             <OnResizeStop>
-                PinkSkull.SaveConstraints()
+                ResistOMeter.SaveConstraints()
             </OnResizeStop>
             <Dimensions x="480" y="140" />
             <Anchor point="TOPLEFT" relativeTo="GUI_ROOT" relativePoint="TOPLEFT"
                 offsetX="10" offsetY="10" />
             <Controls>
-                <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop">
-                    <AnchorFill />
-                </Backdrop>
                 <Label name="$(parent)LabelName"
                     multiLine="true" hidden="false"
                     horizontalAlignment="LEFT"

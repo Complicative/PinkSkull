@@ -1,10 +1,10 @@
-## Title: PinkSkull
+## Title: Resist-O-Meter
 ## Description: 
 ## Author: Complicative
 ## Version: 1.1.1
 ## APIVersion: 101035
-## SavedVariables: PinkSkullSettings
+## SavedVariables: ResistOMeterSettings
 ## DependsOn: LibAddonMenu-2.0
 
-PinkSkull.xml
-PinkSkull.lua
+ResistOMeter.xml
+ResistOMeter.lua
