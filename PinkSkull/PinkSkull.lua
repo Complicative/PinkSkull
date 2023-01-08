@@ -18,6 +18,7 @@ PinkSkull.Default = {
 }
 
 local LAM2 = LibAddonMenu2
+local mainFragment = ZO_SimpleSceneFragment:New(PinkSkullMainWindow)
 
 function PinkSkull.FillLabel()
     local physicalResist = GetPlayerStat(STAT_PHYSICAL_RESIST)
@@ -140,6 +141,19 @@ function PinkSkull.createSettings()
     LAM2:RegisterOptionControls("PinkSkullOptions", optionsData)
 end
 
+function PinkSkull.SetHidden(hidden)
+    if hidden then
+        HUD_SCENE:RemoveFragment(mainFragment)
+        HUD_UI_SCENE:RemoveFragment(mainFragment)
+        SCENE_MANAGER:GetScene("inventory"):RemoveFragment(mainFragment)
+    end
+    if not hidden then
+        HUD_SCENE:AddFragment(mainFragment)
+        HUD_UI_SCENE:AddFragment(mainFragment)
+        SCENE_MANAGER:GetScene("inventory"):AddFragment(mainFragment)
+    end
+end
+
 function PinkSkull.OnAddOnLoaded(event, addonName)
     if addonName ~= PinkSkull.name then
         return
@@ -155,18 +169,10 @@ function PinkSkull.OnAddOnLoaded(event, addonName)
         PinkSkull.Settings.fontSize))
     PinkSkullMainWindowLabelValue:SetFont(string.format("$(MEDIUM_FONT)|$(KB_%d)|thick-outline",
         PinkSkull.Settings.fontSize))
-    PinkSkullMainWindow:SetHidden(PinkSkull.Settings.hidden)
 
+    PinkSkull.SetHidden(PinkSkull.Settings.hidden)
     PinkSkull.createSettings()
     PinkSkull.FillLabel()
-
-    local mainFragment = ZO_SimpleSceneFragment:New(PinkSkullMainWindow)
-
-    if not PinkSkull.Settings.hidden then
-        HUD_SCENE:AddFragment(mainFragment)
-        HUD_UI_SCENE:AddFragment(mainFragment)
-        SCENE_MANAGER:GetScene("inventory"):AddFragment(mainFragment)
-    end
 end
 
 EVENT_MANAGER:RegisterForEvent(PinkSkull.name, EVENT_ADD_ON_LOADED, PinkSkull.OnAddOnLoaded)
@@ -176,5 +182,5 @@ EVENT_MANAGER:AddFilterForEvent(PinkSkull.name, EVENT_INVENTORY_SINGLE_SLOT_UPDA
 
 SLASH_COMMANDS["/pinkskull"] = function()
     PinkSkull.Settings.hidden = not PinkSkull.Settings.hidden
-    PinkSkullMainWindow:SetHidden(PinkSkull.Settings.hidden)
+    PinkSkull.SetHidden(PinkSkull.Settings.hidden)
 end
