@@ -282,6 +282,7 @@ function ResistOMeter.OnAddOnLoaded(event, addonName)
     if addonName ~= ResistOMeter.name then
         return
     end
+    EVENT_MANAGER:UnregisterForEvent(ResistOMeter.name, EVENT_ADD_ON_LOADED)
     -- SavedSettings
     ResistOMeter.Settings = ZO_SavedVars:NewAccountWide("ResistOMeterSettings", 1, nil, ResistOMeter.Default)
 
